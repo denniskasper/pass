@@ -105,12 +105,12 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
 3. Push changes
 
    ```bash
-   pass git push origin master
+   pass git push origin main
    ```
 
 4. Pull changes
 
    ```bash
    git clone gcrypt::<remote_url>
-   git pull origin master
+   git pull origin main
    ```
