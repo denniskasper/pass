@@ -17,7 +17,7 @@ dnf install git gnupg pass pass-otp rofi zbar
 **Arch**
 
 ```bash
-pacman -S git gnupg pass pass-otp rofi zbar
+pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 ```
 
 ## Setup `pass`
