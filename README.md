@@ -1,4 +1,10 @@
-# Manage and sync all your passwords and one-time-passwords on Linux
+<div align="center">
+  <h1>Manage and sync all your passwords and one-time-passwords on Linux</h1>
+  <a href="https://youtu.be/CwHCPvuJKgE">
+    <img width="320px" height="180px" src="https://img.youtube.com/vi/CwHCPvuJKgE/mqdefault.jpg" style="border-radius: 1rem;" />
+    <p>Watch the YouTube Tutorial</p>
+  </a>
+</div>
 
 ## Requirements
 
