@@ -57,7 +57,7 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 1. Clone this repository
 
    ```bash
-   git clone https://github.com/flolu/pass
+   git clone git@github.com:DennisKasper/pass
    cd pass
    ```
 
