@@ -58,6 +58,42 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
    pass help
    ```
 
+   Insert given password
+
+   ```bash
+   pass insert <pass-name>
+   ```
+
+   Generate standard password
+
+   ```bash
+   pass generate <pass-name>
+   ```
+
+   Generate password with no symbols and custom length (standard length is 25)
+
+   ```bash
+   pass generate --no-symbols <pass-name> <pass-length>
+   ```
+
+   Edit a password
+
+   ```bash
+   pass edit <pass-name>
+   ```
+
+   Remove a password
+
+   ```bash
+   pass rm <pass-name>
+   ```
+
+   Rename a password
+
+   ```bash
+   pass mv <old-path> <new-path>
+   ```
+
 ## Setup `passmenu`
 
 1. Clone this repository
