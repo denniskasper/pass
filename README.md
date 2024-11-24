@@ -10,19 +10,19 @@
 
 **Debian**
 
-```bash
+```console
 apt install git gnupg pass rofi pass-extension-otp zbar-tools
 ```
 
 **Fedora**
 
-```bash
+```console
 dnf install git gnupg pass pass-otp rofi zbar
 ```
 
 **Arch**
 
-```bash
+```console
 pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 ```
 
@@ -30,14 +30,14 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 
 1. You need a GPG key
 
-   ```bash
+   ```console
    gpg --list-keys
    gpg --full-gen-key
    ```
 
 2. Backup your GPG key
 
-   ```bash
+   ```console
    # backup
    gpg -o private.gpg --export-options backup --export-secret-keys <gpg_key_fingerprint>
 
@@ -47,50 +47,50 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 
 3. Initialize password store
 
-   ```bash
+   ```console
    pass init <gpg_key_fingerprint>
    pass git init
    ```
 
 4. Manage passwords
 
-   ```bash
+   ```console
    pass help
    ```
 
    Insert given password
 
-   ```bash
+   ```console
    pass insert <pass-name>
    ```
 
    Generate standard password
 
-   ```bash
+   ```console
    pass generate <pass-name>
    ```
 
    Generate password with no symbols and custom length (standard length is 25)
 
-   ```bash
+   ```console
    pass generate --no-symbols <pass-name> <pass-length>
    ```
 
    Edit a password
 
-   ```bash
+   ```console
    pass edit <pass-name>
    ```
 
    Remove a password
 
-   ```bash
+   ```console
    pass rm <pass-name>
    ```
 
    Rename a password
 
-   ```bash
+   ```console
    pass mv <old-path> <new-path>
    ```
 
@@ -98,14 +98,14 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 
 1. Clone this repository
 
-   ```bash
+   ```console
    git clone git@github.com:DennisKasper/pass
    cd pass
    ```
 
 2. Install `passmenu` script
 
-   ```bash
+   ```console
    sudo cp ./passmenu /usr/bin/
    ```
 
@@ -113,9 +113,9 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 
    > In GNOME it can be done like this:
 
-   - Settings 🠖 Keyboard 🠖 Shortcuts 🠖 Custom 🠖 Add
+   - Settings 🠖 Keyboard 🠖 Keyboard Shortcuts 🠖 Custom 🠖 Add
    - Enter `passmenu` as the "Command"
-   - And set a "Shortcut" (e.g. `Ctrl` + `Alt` + `P`)
+   - And set a "Shortcut" (e.g. `Ctrl` + `Alt` + `Shift` + `P`)
 
 4. Fix menu not focusing
 
@@ -138,7 +138,7 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
 
 2. Add encrypted remote
 
-   ```bash
+   ```console
    pass git remote add <remote_name> gcrypt::<remote_url>
    pass git config remote.<remote_name>.gcrypt-participants "<key_fingerprint>"
    pass git config remote.<remote_name>.gcrypt-signingkey "<key_fingerprint>"
@@ -146,13 +146,21 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
 
 3. Push changes
 
-   ```bash
+   ```console
    pass git push origin main
    ```
 
 4. Pull changes
 
-   ```bash
+   ```console
    git clone gcrypt::<remote_url>
    git pull origin main
    ```
+
+## Recover password-store
+
+Git clone the private repository
+
+```console
+git clone gcrypt::<private_remote_url> ~/.password-store
+```
