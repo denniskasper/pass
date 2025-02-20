@@ -45,6 +45,10 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
    gpg --import-options restore --import private.gpg
    ```
 
+   > Note
+   > 
+   > The trust level may need to be set when restoring the key
+
 3. Initialize password store
 
    ```console
@@ -99,7 +103,7 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
 1. Clone this repository
 
    ```console
-   git clone git@github.com:DennisKasper/pass
+   git clone git@github.com:denniskasper/pass
    cd pass
    ```
 
@@ -159,8 +163,18 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
 
 ## Recover password-store
 
-Git clone the private repository
+1. Restore private GPG key
 
-```console
-git clone gcrypt::<private_remote_url> ~/.password-store
-```
+   ```console
+   gpg --import-options restore --import private.gpg
+   ```
+   
+   > Note
+   > 
+   > The trust level may need to be set when restoring the key
+
+2. Git clone the private repository
+
+   ```console
+   git clone gcrypt::<private_remote_url> ~/.password-store
+   ```
