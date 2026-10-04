@@ -11,13 +11,13 @@
 **Debian**
 
 ```console
-apt install git gnupg pass rofi pass-extension-otp zbar-tools
+apt install git gnupg pass rofi pass-extension-otp zbar-tools wl-clipboard
 ```
 
 **Fedora**
 
 ```console
-dnf install git gnupg pass pass-otp rofi zbar
+dnf install git gnupg pass pass-otp rofi zbar wl-clipboard
 ```
 
 **Arch**
@@ -46,7 +46,7 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
    ```
 
    > Note
-   > 
+   >
    > The trust level may need to be set when restoring the key
 
 3. Initialize password store
@@ -98,6 +98,30 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
    pass mv <old-path> <new-path>
    ```
 
+5. Manage one-time-passwords
+
+   Insert an OTP key from a QR code screenshot
+
+   ```console
+   zbarimg -q --raw <qr-code.png> | pass otp insert <pass-name>
+   ```
+
+   Or insert an OTP key manually (prompts for the `otpauth://` URI)
+
+   ```console
+   pass otp insert <pass-name>
+   ```
+
+   Generate the current code
+
+   ```console
+   pass otp <pass-name>
+   ```
+
+   > Note
+   >
+   > `passmenu` copies the OTP code instead of the password for every entry that contains an `otpauth://` URI. So store OTP keys in their own entries (e.g. `otp/<pass-name>`) instead of appending them to a password entry.
+
 ## Setup `passmenu`
 
 1. Clone this repository
@@ -121,14 +145,9 @@ pacman -S git gnupg pass pass-otp rofi zbar wl-clipboard
    - Enter `passmenu` as the "Command"
    - And set a "Shortcut" (e.g. `Ctrl` + `Alt` + `Shift` + `P`)
 
-4. Fix menu not focusing
-
-   > If you start the menu and it won't be focused, you need to disable Wayland and switch to X11. But don't worry it's very easy:
-
-   - Edit `/etc/gdm/custom.conf`
-   - Change `#WaylandEnable=false` to `WaylandEnable=false`
-   - Reboot your computer
-   - If you have a laptop and your touch gestures are broken afterwards, just install [X11 Gestures](https://extensions.gnome.org/extension/4033/x11-gestures) extension and [touchegg](https://github.com/JoseExposito/touchegg#installation)
+> Note
+>
+> GNOME on Wayland doesn't support the layer-shell protocol that rofi needs, and an XWayland popup won't get keyboard focus. So when `passmenu` detects a GNOME Wayland session (`WAYLAND_DISPLAY` is set and `XDG_CURRENT_DESKTOP` contains `GNOME`), it runs rofi with `-x11 -normal-window` and passes GNOME's X11 DPI (`Xft.dpi`) as `-dpi`, so the menu is not tiny on scaled displays (this needs `xrdb`, on Debian part of `x11-xserver-utils`; without it the menu still works, just unscaled). No need to disable Wayland. Other Wayland compositors that support layer-shell use plain `rofi -dmenu`. Any arguments you pass to `passmenu` are forwarded to rofi.
 
 ## Synchronization
 
@@ -151,15 +170,18 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
 3. Push changes
 
    ```console
-   pass git push origin main
+   pass git push <remote_name> main
    ```
 
 4. Pull changes
 
    ```console
-   git clone gcrypt::<remote_url>
-   git pull origin main
+   pass git pull <remote_name> main
    ```
+
+   > Note
+   >
+   > To set up the password store on a new computer, see [Recover password-store](#recover-password-store)
 
 ## Recover password-store
 
@@ -168,9 +190,9 @@ I recommend syncing your passwords through an encrypted Git repository. You can 
    ```console
    gpg --import-options restore --import private.gpg
    ```
-   
+
    > Note
-   > 
+   >
    > The trust level may need to be set when restoring the key
 
 2. Git clone the private repository

@@ -7,7 +7,20 @@ password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
-password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu "$@")
+rofi_args=( -dmenu )
+
+# GNOME on Wayland doesn't support the layer-shell protocol rofi needs, so run
+# rofi through XWayland as a normal window to make sure it gets keyboard focus
+if [[ -n $WAYLAND_DISPLAY && $XDG_CURRENT_DESKTOP == *GNOME* ]]; then
+	rofi_args+=( -x11 -normal-window )
+
+	# rofi ignores the display scaling on XWayland and renders tiny on scaled
+	# displays, so pass it the DPI that GNOME sets for X11 apps
+	dpi=$(xrdb -query 2>/dev/null | awk '$1 == "Xft.dpi:" { print $2 }')
+	[[ -n $dpi ]] && rofi_args+=( -dpi "$dpi" )
+fi
+
+password=$(printf '%s\n' "${password_files[@]}" | rofi "${rofi_args[@]}" "$@")
 
 [[ -n $password ]] || exit
 
